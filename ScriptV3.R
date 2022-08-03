@@ -14,11 +14,11 @@ cts2 <- select(cts, -c (HFW29_S4_V3,HFW32_S3_V3, HFW01_V2,HFW02_V2, HFW03_V2,
                         HFW18_V2, HFW24_V2, HFW26_V2, HFW27_V2, HFW144_V2, HFW31_V2,
                         HFW32_V2, HFW36_V2, HFW39_V2, HFW41_V2, HFW43_V2, HFW45_V2, 
                         HFW48_V2, HFW49_V2, HFW51_V2))
-Name=colnames(cts2)
-Time=c(rep("NRE", 3), "RE", "NRE", "RE", rep("NRE", 2), "RE", rep("NRE", 2), rep("RE", 2),
+Name<- colnames(cts2)
+Time<- c(rep("NRE", 3), "RE", "NRE", "RE", rep("NRE", 2), "RE", rep("NRE", 2), rep("RE", 2),
        rep("NRE", 2), rep("RE", 2), rep("NRE", 2), "RE", rep("NRE", 3), "RE", rep("NRE", 2),
        "RE", rep("NRE", 5), "RE", "NRE", "RE", "NRE", "RE", "NRE")
-coldata=data.frame(Name,Time)
+coldata= data.frame(Name,Time)
 head(coldata,38)
 dim(coldata)
 
@@ -28,7 +28,7 @@ table(rowSums(log_cts>log10(3))>=15)
 keep.exprs<- rowSums(log_cts>log10(3))>=15
 cts_filt<-cts2[keep.exprs,]
 dim(cts_filt)
-head(cts_filt,11)
+head(cts_filt, 11)
 
 dds <- DESeqDataSetFromMatrix(countData = round(cts_filt), colData = coldata, design = ~ Time)
 dds$Time <- factor(dds$Time, levels = c("NRE","RE"))
@@ -38,6 +38,5 @@ dds <- DESeq(dds)
 res <- results(dds)
 head(res)
 dim(res)
-
 
 write.csv(res,"v3_RExNREe.csv", row.names = T)
